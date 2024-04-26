@@ -4,6 +4,15 @@ from cMBDF import generate_mbdf
 from scipy.spatial.distance import euclidean
 
 def get_preds(xyz,basis):
+    """
+    Returns a matrix containing scalig factor predictions for each atom within a molecule
+
+    :param xyz: path/name of xyz file of the molecule
+    :param basis: name of the basis set
+
+    :return: Nx(n+1) matrix containing the n scaling factors for the N atoms. First column of each row is the atomic number of the atom followed by the n scaling factors
+    """
+
     atoms = read(xyz)
     q, r = atoms.get_atomic_numbers(), atoms.get_positions()
     reptest = np.concatenate(generate_mbdf(np.array([q]), np.array([r]), rcut=6.0, pad=None))
@@ -39,9 +48,9 @@ def get_preds(xyz,basis):
                 if j!=0:
                     xtest = reptest[eleminds]
                     eleminds = np.array(q==elem)
-                    dist = euclidean(xtrain[inds], xtest)
+                    dist = euclidean(xtrain[inds], xtest)/sigma
                     alpha, sigma = model[i][j][:-1], model[i][j][-1]
-                    k = dist/sigma
+                    k = np.exp(-(dist**2)/2)
                     preds[eleminds,i] = np.dot(k.T,alpha)
 
     return preds
