@@ -38,3 +38,8 @@ array([[6.        , 1.19370967, 1.44321491],
        [1.        , 0.9961436 , 0.87176338],
        [1.        , 1.08273148, 0.96821555]])
 ```
+
+# References
+Please consider citing the following work :
+
+Khan, D., Ach, M. L., & von Lilienfeld, O. A. (2024). Adaptive atomic basis sets. arXiv preprint [arXiv:2402.14793](https://arxiv.org/abs/2404.16942).
