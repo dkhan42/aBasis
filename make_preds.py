@@ -34,22 +34,23 @@ def get_preds(xyz,basis):
     
     preds = np.zeros((len(q),n))
     preds[:,0] = q
+    
     for i in range(1,n):
         if i<3:
             for j,inds,elem in zip(range(5),[Hinds, Cinds, Ninds, Oinds, Finds],[1,6,7,8,9]):
                 xtest = reptest[eleminds]
                 eleminds = np.array(q==elem)
-                dist = euclidean(xtrain[inds], xtest)
                 alpha, sigma = model[i][j][:-1], model[i][j][-1]
-                k = dist/sigma
+                dist = euclidean(xtrain[inds], xtest)/sigma
+                k = np.exp(-(dist**2)/2)
                 preds[eleminds,i] = np.dot(k.T,alpha)
         else:
             for j,inds,elem in zip(range(5),[Hinds, Cinds, Ninds, Oinds, Finds],[1,6,7,8,9]):
                 if j!=0:
                     xtest = reptest[eleminds]
                     eleminds = np.array(q==elem)
-                    dist = euclidean(xtrain[inds], xtest)/sigma
                     alpha, sigma = model[i][j][:-1], model[i][j][-1]
+                    dist = euclidean(xtrain[inds], xtest)/sigma
                     k = np.exp(-(dist**2)/2)
                     preds[eleminds,i] = np.dot(k.T,alpha)
 
