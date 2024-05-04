@@ -38,8 +38,8 @@ def get_preds(xyz,basis):
     for i in range(1,n):
         if i<3:
             for j,inds,elem in zip(range(5),[Hinds, Cinds, Ninds, Oinds, Finds],[1,6,7,8,9]):
-                xtest = reptest[eleminds]
                 eleminds = np.array(q==elem)
+                xtest = reptest[eleminds]
                 alpha, sigma = model[i][j][:-1], model[i][j][-1]
                 dist = euclidean(xtrain[inds], xtest)/sigma
                 k = np.exp(-(dist**2)/2)
@@ -47,8 +47,8 @@ def get_preds(xyz,basis):
         else:
             for j,inds,elem in zip(range(5),[Hinds, Cinds, Ninds, Oinds, Finds],[1,6,7,8,9]):
                 if j!=0:
-                    xtest = reptest[eleminds]
                     eleminds = np.array(q==elem)
+                    xtest = reptest[eleminds]
                     alpha, sigma = model[i][j][:-1], model[i][j][-1]
                     dist = euclidean(xtrain[inds], xtest)/sigma
                     k = np.exp(-(dist**2)/2)
